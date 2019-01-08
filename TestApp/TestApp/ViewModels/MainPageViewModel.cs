@@ -6,16 +6,27 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
+using TestApp.Views;
 
 namespace TestApp.ViewModels
 {
     public class MainPageViewModel : ViewModelBase
     {
-        public MainPageViewModel(INavigationService navigationService)
-            : base(navigationService)
+#if PRISM
+        public MainPageViewModel(INavigationService navigationService) : base(navigationService)
         {
             Title = "Main Page";
+            // PRISM navigation
+            GoAnotherPage = new DelegateCommand(() => NavigationService.NavigateAsync("AnotherPage"));
         }
+#else
+        public MainPageViewModel()
+        {
+            Title = "Main Page";
+            // XF navigation
+            GoAnotherPage = new DelegateCommand(() => App.Current.MainPage.Navigation.PushAsync(new AnotherPage()));
+        }
+#endif
 
         public DelegateCommand LoadLog => new DelegateCommand(() =>
             {
@@ -23,15 +34,17 @@ namespace TestApp.ViewModels
             });
 
         public DelegateCommand ResetLog => new DelegateCommand(() =>
-            {
-                GlobalVariables.ViewLog = new ObservableCollection<string>();
-                Log = GlobalVariables.ViewLog;
-            });
+        {
+            GlobalVariables.ViewLog = new ObservableCollection<string>();
+            Log = GlobalVariables.ViewLog;
+        });
 
-        public DelegateCommand GoAnotherPage => new DelegateCommand(() =>
-             {
-                 NavigationService.NavigateAsync("AnotherPage");
-             });
+        private DelegateCommand _goAnotherPage;
+        public DelegateCommand GoAnotherPage
+        {
+            get { return _goAnotherPage; }
+            set { SetProperty(ref _goAnotherPage, value); }
+        }
 
         private ObservableCollection<string> _log;
         public ObservableCollection<string> Log

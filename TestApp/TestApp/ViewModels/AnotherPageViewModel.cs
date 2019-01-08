@@ -5,18 +5,30 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using TestApp.Views;
+using Xamarin.Forms;
 
 namespace TestApp.ViewModels
 {
     public class AnotherPageViewModel : ViewModelBase
     {
-        public AnotherPageViewModel(INavigationService navigationService)
-            : base(navigationService)
+#if PRISM
+        public AnotherPageViewModel(INavigationService navigationService) : base(navigationService)
         {
             Title = "Another Page";
-            GoMainPage = new DelegateCommand(() => NavigationService.NavigateAsync("myapp:///NavigationPage/MainPage"));
+            // PRISM navigation
+            GoMainPage = new DelegateCommand(() => NavigationService.NavigateAsync("/NavigationPage/MainPage"));
             GoBack = new DelegateCommand(() => NavigationService.GoBackAsync());
         }
+#else
+        public AnotherPageViewModel()
+        {
+            Title = "Another Page";
+            // XF navigation
+            GoMainPage = new DelegateCommand(() => App.Current.MainPage = new NavigationPage(new MainPage()));
+            GoBack = new DelegateCommand(() => App.Current.MainPage.Navigation.PopAsync());
+        }
+#endif
 
         private DelegateCommand _goBack;
         public DelegateCommand GoBack

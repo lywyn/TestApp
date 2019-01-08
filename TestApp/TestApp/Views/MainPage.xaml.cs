@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TestApp.ViewModels;
 using Xamarin.Forms;
 
 namespace TestApp.Views
@@ -12,6 +13,9 @@ namespace TestApp.Views
         public MainPage()
         {
             InitializeComponent();
+#if !PRISM
+            BindingContext = new MainPageViewModel();
+#endif
         }
 
         protected override void OnAppearing()

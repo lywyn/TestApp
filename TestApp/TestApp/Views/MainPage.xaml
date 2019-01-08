@@ -3,7 +3,6 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="TestApp.Views.MainPage"
              Title="{Binding Title}">
-
     <StackLayout HorizontalOptions="CenterAndExpand" VerticalOptions="StartAndExpand" Padding="20">
         <Button Text="Go to Another Page" Command="{Binding GoAnotherPage}" />
         <StackLayout Orientation="Horizontal" HorizontalOptions="CenterAndExpand">

@@ -26,7 +26,14 @@ namespace TestApp
             InitializeComponent();
 
             GlobalVariables.ViewLog = new ObservableCollection<string>();
-            await NavigationService.NavigateAsync("NavigationPage/MainPage");
+
+#if PRISM
+            // PRISM navigation
+            await NavigationService.NavigateAsync("/NavigationPage/MainPage");
+#else
+            // XF navigation
+            MainPage = new NavigationPage(new MainPage());
+#endif
         }
 
         protected override void RegisterTypes(IContainerRegistry containerRegistry)

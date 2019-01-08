@@ -7,7 +7,7 @@ using System.Text;
 
 namespace TestApp.ViewModels
 {
-    public class ViewModelBase : BindableBase, INavigationAware, IDestructible
+    public class ViewModelBase : BindableBase
     {
         protected INavigationService NavigationService { get; private set; }
 
@@ -18,30 +18,14 @@ namespace TestApp.ViewModels
             set { SetProperty(ref _title, value); }
         }
 
+#if PRISM
         public ViewModelBase(INavigationService navigationService)
         {
             NavigationService = navigationService;
         }
-
-        public virtual void OnNavigatedFrom(INavigationParameters parameters)
-        {
-
-        }
-
-        public virtual void OnNavigatedTo(INavigationParameters parameters)
-        {
-
-        }
-
-        public virtual void OnNavigatingTo(INavigationParameters parameters)
-        {
-
-        }
-
-        public virtual void Destroy()
-        {
-
-        }
+#else
+        public ViewModelBase() { }
+#endif
 
         public void OnAppearing()
         {

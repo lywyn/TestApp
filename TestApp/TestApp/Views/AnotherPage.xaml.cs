@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
+using TestApp.ViewModels;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -15,7 +15,10 @@ namespace TestApp.Views
 		public AnotherPage ()
 		{
 			InitializeComponent ();
-		}
+#if !PRISM
+            BindingContext = new AnotherPageViewModel();
+#endif
+        }
 
         protected override void OnAppearing()
         {
